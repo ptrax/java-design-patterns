@@ -1,6 +1,6 @@
 /**
  * The MIT License
- * Copyright (c) 2014-2016 Ilkka Seppälä
+ * Copyright (c) 2014-2016 Ilkka Sepp�l�
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,31 +20,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.iluwatar.chain;
+
+package com.iluwatar.commander;
 
 /**
- * 
- * OrcCommander
- *
+ * User class contains details of user who places order.
  */
-public class OrcCommander extends RequestHandler {
 
-  public OrcCommander(RequestHandler handler) {
-    super(handler);
+public class User {
+  String name;
+  String address;
+
+  User(String name, String address) {
+    this.name = name;
+    this.address = address;
   }
 
-  @Override
-  public void handleRequest(Request req) {
-    if (RequestType.DEFEND_CASTLE == req.getRequestType()) {
-      printHandling(req);
-      req.markHandled();
-    } else {
-      super.handleRequest(req);
-    }
-  }
-
-  @Override
-  public String toString() {
-    return "Orc commander";
-  }
 }

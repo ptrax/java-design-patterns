@@ -1,6 +1,6 @@
 /**
  * The MIT License
- * Copyright (c) 2014-2016 Ilkka Seppälä
+ * Copyright (c) 2014-2016 Ilkka Sepp�l�
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,31 +20,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.iluwatar.chain;
+
+package com.iluwatar.commander.exceptions;
 
 /**
- * 
- * OrcCommander
- *
+ * IsEmptyException is thrown when it is attempted to dequeue from an empty queue.
  */
-public class OrcCommander extends RequestHandler {
 
-  public OrcCommander(RequestHandler handler) {
-    super(handler);
-  }
-
-  @Override
-  public void handleRequest(Request req) {
-    if (RequestType.DEFEND_CASTLE == req.getRequestType()) {
-      printHandling(req);
-      req.markHandled();
-    } else {
-      super.handleRequest(req);
-    }
-  }
-
-  @Override
-  public String toString() {
-    return "Orc commander";
-  }
+public class IsEmptyException extends Exception {
+  private static final long serialVersionUID = 123546L;
 }

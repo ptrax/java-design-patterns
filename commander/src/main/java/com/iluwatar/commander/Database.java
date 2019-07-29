@@ -1,6 +1,6 @@
 /**
  * The MIT License
- * Copyright (c) 2014-2016 Ilkka Seppälä
+ * Copyright (c) 2014-2016 Ilkka Sepp�l�
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,31 +20,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.iluwatar.chain;
+
+package com.iluwatar.commander;
+
+import com.iluwatar.commander.exceptions.DatabaseUnavailableException;
 
 /**
- * 
- * OrcCommander
- *
+ * Database abstract class is extended by all databases in our example. The add and get
+ * methods are used by the respective service to add to database or get from database.
+ * @param <T> T is the type of object being held by database.
  */
-public class OrcCommander extends RequestHandler {
 
-  public OrcCommander(RequestHandler handler) {
-    super(handler);
-  }
-
-  @Override
-  public void handleRequest(Request req) {
-    if (RequestType.DEFEND_CASTLE == req.getRequestType()) {
-      printHandling(req);
-      req.markHandled();
-    } else {
-      super.handleRequest(req);
-    }
-  }
-
-  @Override
-  public String toString() {
-    return "Orc commander";
-  }
+public abstract class Database<T> {
+  public abstract T add(T obj) throws DatabaseUnavailableException;
+  public abstract T get(String tId) throws DatabaseUnavailableException;
 }

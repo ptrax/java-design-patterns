@@ -1,6 +1,6 @@
 /**
  * The MIT License
- * Copyright (c) 2014-2016 Ilkka Seppälä
+ * Copyright (c) 2014-2016 Ilkka Sepp�l�
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,31 +20,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.iluwatar.chain;
+
+package com.iluwatar.commander.employeehandle;
+
+import com.iluwatar.commander.Order;
+import com.iluwatar.commander.Service;
+import com.iluwatar.commander.exceptions.DatabaseUnavailableException;
 
 /**
- * 
- * OrcCommander
- *
+ * The EmployeeHandle class is the middle-man between {@link Commander} and 
+ * {@link EmployeeDatabase}.
  */
-public class OrcCommander extends RequestHandler {
 
-  public OrcCommander(RequestHandler handler) {
-    super(handler);
+public class EmployeeHandle extends Service {
+
+  public EmployeeHandle(EmployeeDatabase db, Exception...exc) {
+    super(db, exc);
   }
 
-  @Override
-  public void handleRequest(Request req) {
-    if (RequestType.DEFEND_CASTLE == req.getRequestType()) {
-      printHandling(req);
-      req.markHandled();
-    } else {
-      super.handleRequest(req);
+  public String receiveRequest(Object...parameters) throws DatabaseUnavailableException {
+    return updateDb((Order)parameters[0]);
+  }
+
+  protected String updateDb(Object...parameters) throws DatabaseUnavailableException {
+    Order o = (Order) parameters[0];
+    if (database.get(o.id) == null) {
+      database.add(o);
+      return o.id; //true rcvd - change addedToEmployeeHandle to true else dont do anything
     }
+    return null;
   }
 
-  @Override
-  public String toString() {
-    return "Orc commander";
-  }
 }

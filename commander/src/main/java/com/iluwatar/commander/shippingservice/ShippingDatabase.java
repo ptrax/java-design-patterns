@@ -1,6 +1,6 @@
 /**
  * The MIT License
- * Copyright (c) 2014-2016 Ilkka Seppälä
+ * Copyright (c) 2014-2016 Ilkka Sepp�l�
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,31 +20,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.iluwatar.chain;
+
+package com.iluwatar.commander.shippingservice;
+
+import java.util.Hashtable;
+import com.iluwatar.commander.Database;
+import com.iluwatar.commander.exceptions.DatabaseUnavailableException;
+import com.iluwatar.commander.shippingservice.ShippingService.ShippingRequest;
 
 /**
- * 
- * OrcCommander
- *
+ * ShippingDatabase is where the ShippingRequest objects are added.
  */
-public class OrcCommander extends RequestHandler {
 
-  public OrcCommander(RequestHandler handler) {
-    super(handler);
+public class ShippingDatabase extends Database<ShippingRequest> {
+  
+  private Hashtable<String, ShippingRequest> data;
+
+  public ShippingDatabase() {
+    this.data = new Hashtable<String, ShippingRequest>();
   }
 
   @Override
-  public void handleRequest(Request req) {
-    if (RequestType.DEFEND_CASTLE == req.getRequestType()) {
-      printHandling(req);
-      req.markHandled();
-    } else {
-      super.handleRequest(req);
-    }
+  public ShippingRequest add(ShippingRequest r) throws DatabaseUnavailableException {
+    return data.put(r.transactionId, r);
   }
 
-  @Override
-  public String toString() {
-    return "Orc commander";
+  public ShippingRequest get(String transactionId) throws DatabaseUnavailableException {
+    return data.get(transactionId);
   }
+
 }

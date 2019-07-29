@@ -1,6 +1,6 @@
 /**
  * The MIT License
- * Copyright (c) 2014-2016 Ilkka Seppälä
+ * Copyright (c) 2014-2016 Ilkka Sepp�l�
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,31 +20,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.iluwatar.chain;
+
+package com.iluwatar.commander.employeehandle;
+
+import java.util.Hashtable;
+import com.iluwatar.commander.Database;
+import com.iluwatar.commander.Order;
+import com.iluwatar.commander.exceptions.DatabaseUnavailableException;
 
 /**
- * 
- * OrcCommander
- *
+ * The Employee Database is where orders which have encountered some issue(s) are added.
  */
-public class OrcCommander extends RequestHandler {
 
-  public OrcCommander(RequestHandler handler) {
-    super(handler);
+public class EmployeeDatabase extends Database<Order> {
+  private Hashtable<String, Order> data;
+
+  public EmployeeDatabase() {
+    this.data = new Hashtable<String, Order>();
   }
 
   @Override
-  public void handleRequest(Request req) {
-    if (RequestType.DEFEND_CASTLE == req.getRequestType()) {
-      printHandling(req);
-      req.markHandled();
-    } else {
-      super.handleRequest(req);
-    }
+  public Order add(Order o) throws DatabaseUnavailableException {
+    return data.put(o.id,o);
   }
 
   @Override
-  public String toString() {
-    return "Orc commander";
+  public Order get(String oId) throws DatabaseUnavailableException {
+    return data.get(oId);
   }
 }

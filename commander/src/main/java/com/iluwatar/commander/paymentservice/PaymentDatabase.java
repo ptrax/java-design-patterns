@@ -1,6 +1,6 @@
 /**
  * The MIT License
- * Copyright (c) 2014-2016 Ilkka Seppälä
+ * Copyright (c) 2014-2016 Ilkka Sepp�l�
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,31 +20,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.iluwatar.chain;
+
+package com.iluwatar.commander.paymentservice;
+
+import java.util.Hashtable;
+
+import com.iluwatar.commander.Database;
+import com.iluwatar.commander.exceptions.DatabaseUnavailableException;
+import com.iluwatar.commander.paymentservice.PaymentService.PaymentRequest;
 
 /**
- * 
- * OrcCommander
- *
+ * PaymentDatabase is where the PaymentRequest is added, along with details.
  */
-public class OrcCommander extends RequestHandler {
 
-  public OrcCommander(RequestHandler handler) {
-    super(handler);
+public class PaymentDatabase extends Database<PaymentRequest> {
+
+  private Hashtable<String, PaymentRequest> data;
+
+  public PaymentDatabase() {
+    this.data = new Hashtable<String, PaymentRequest>();
+    //0-fail, 1-error, 2-success
   }
 
   @Override
-  public void handleRequest(Request req) {
-    if (RequestType.DEFEND_CASTLE == req.getRequestType()) {
-      printHandling(req);
-      req.markHandled();
-    } else {
-      super.handleRequest(req);
-    }
+  public PaymentRequest add(PaymentRequest r) throws DatabaseUnavailableException {
+    return data.put(r.transactionId, r);
   }
 
   @Override
-  public String toString() {
-    return "Orc commander";
+  public PaymentRequest get(String tId) throws DatabaseUnavailableException {
+    return data.get(tId);
   }
+
 }

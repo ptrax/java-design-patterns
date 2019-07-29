@@ -1,6 +1,6 @@
 /**
  * The MIT License
- * Copyright (c) 2014-2016 Ilkka Seppälä
+ * Copyright (c) 2014-2016 Ilkka Sepp�l�
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,31 +20,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.iluwatar.chain;
+
+package com.iluwatar.commander.messagingservice;
+
+import java.util.Hashtable;
+import com.iluwatar.commander.Database;
+import com.iluwatar.commander.exceptions.DatabaseUnavailableException;
+import com.iluwatar.commander.messagingservice.MessagingService.MessageRequest;
 
 /**
- * 
- * OrcCommander
- *
+ * The MessagingDatabase is where the MessageRequest is added.
  */
-public class OrcCommander extends RequestHandler {
 
-  public OrcCommander(RequestHandler handler) {
-    super(handler);
+public class MessagingDatabase extends Database<MessageRequest> {
+  private Hashtable<String, MessageRequest> data;
+
+  public MessagingDatabase() {
+    this.data = new Hashtable<String, MessageRequest>();
   }
 
   @Override
-  public void handleRequest(Request req) {
-    if (RequestType.DEFEND_CASTLE == req.getRequestType()) {
-      printHandling(req);
-      req.markHandled();
-    } else {
-      super.handleRequest(req);
-    }
+  public MessageRequest add(MessageRequest r) throws DatabaseUnavailableException {
+    return data.put(r.reqId, r);
   }
 
   @Override
-  public String toString() {
-    return "Orc commander";
+  public MessageRequest get(String rId) throws DatabaseUnavailableException {
+    return data.get(rId);
   }
+
 }
